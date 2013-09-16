@@ -117,7 +117,6 @@ var getNumber = function(url, callback){
 	      	string += chunk.toString();
 	    });
 	    res.on("end",function(){
-	    	console.log(string)
 			callback(string);
 	    });
 	}).on("error", function(e){
@@ -147,7 +146,12 @@ var getPhone = function(url, next){
 			href: url
 		});
 
-		user.save();
+		user.save(function(err){
+			if(err) {
+				console.log("save failed;" + url);
+				console.log(err);
+			}
+		});
 		next();
 	});
 };
@@ -160,7 +164,9 @@ var start = function(){
 		i++;
 		console.log("Index is processed NO."+i);
 		if(i== 140) console.log("Indexe processing Finished");
-		else start();
+		else setTimeout(function(){
+				start();
+			},2000);
 		if(i == 2 && urls.length !=0){
 			getPhoneNumber();
 		}
