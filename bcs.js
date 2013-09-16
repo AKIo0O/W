@@ -98,7 +98,6 @@ var user = new userdao({
 
 
 var http = require("http"),
-	gumbo = require("gumbo-parser"),
 	rex = /<a class=\'list.+?<\/a>/img,
 	urls = [];
 
@@ -118,10 +117,12 @@ var getNumber = function(url, callback){
 	      	string += chunk.toString();
 	    });
 	    res.on("end",function(){
+	    	console.log(string)
 			callback(string);
 	    });
 	}).on("error", function(e){
 		callback("error");
+
 	});
 };
 
@@ -138,7 +139,9 @@ var getIndex = function(url, next){
 var getPhone = function(url, next){
 	getNumber(url, function(string){
 		if(string == "error") next();
-		var number = string.match(/<em class=\"contact-mobile\".+?<\/em>/img)[0].slice(-18,-5);
+		var result = string.match(/<em class=\"contact-mobile\".+?<\/em>/img);
+		if(result == null) return next();
+		var number = result[0].slice(-18,-5);
 		var user = new userdao({
 			phonenumber:number,
 			href: url
@@ -156,15 +159,18 @@ var start = function(){
 	getIndex(url, function(){
 		i++;
 		console.log("Index is processed NO."+i);
-		if(i== 40) console.log("Indexe processing Finished");
+		if(i== 140) console.log("Indexe processing Finished");
 		else start();
-		if(i == 2) getPhoneNumber();
+		if(i == 2 && urls.length !=0){
+			getPhoneNumber();
+		}
 	});
 };
 
 var index = 0;
 
 var getPhoneNumber = function(){
+	console.log(urls)
 	var result = urls[index].match(/href=\'(.+?)\'/);
 	if(result[1] == undefined){
 		index++;
@@ -174,7 +180,9 @@ var getPhoneNumber = function(){
 		getPhone("http://bj.ganji.com"+result[1], function(){
 			index++;
 			if(urls[index]== undefined) console.log("Number processing Finished");
-			else getPhoneNumber();
+			else setTimeout(function(){
+				getPhoneNumber();
+			},2000);
 		});
 	}
 
