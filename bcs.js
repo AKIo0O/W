@@ -176,7 +176,6 @@ var start = function(){
 var index = 0;
 
 var getPhoneNumber = function(){
-	console.log(urls)
 	var result = urls[index].match(/href=\'(.+?)\'/);
 	if(result[1] == undefined){
 		index++;
