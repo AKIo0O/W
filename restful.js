@@ -1,6 +1,7 @@
 require(__dirname+"/initdb.js");
 
 
+
 var db = {
 	file: "fsmodel",
 	user: "usermodel"
