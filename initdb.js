@@ -10,7 +10,8 @@ global.fsmodel = mongoose.model('file', mongoose.Schema({
 
 global.usermodel = mongoose.model('user', mongoose.Schema({
     phonenumber: String,
-    href:[]
+    href:[],
+    title:String 
 }));
 
 
