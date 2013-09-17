@@ -85,10 +85,10 @@ var db = {
 
 var userdao = global.usermodel;
 
-var user = new userdao({
-	phonenumber:18612290687,
-	href:"www.baidu.com"
-});
+// var user = new userdao({
+// 	phonenumber:18612290687,
+// 	href:"www.baidu.com"
+// });
 // user.save();
 
 // userdao.find({},function(err, data){
@@ -103,8 +103,8 @@ var http = require("http"),
 
 
 var hrefs = ["",
-	"http://bj.ganji.com/fang1/a2m1/",
-	"http://bj.ganji.com/fang1/a2o{i}m1/"
+	"http://bj.ganji.com/fang1/a2",
+	"http://bj.ganji.com/fang1/a2o{i}"
 ];
 
 var i = 1;
@@ -118,6 +118,7 @@ var getNumber = function(url, callback){
 	    });
 	    res.on("end",function(){
 			callback(string);
+			console.log(string)
 	    });
 	}).on("error", function(e){
 		callback("error");
@@ -134,6 +135,8 @@ var getIndex = function(url, next){
 		next();
 	})
 };
+var mmm = 0,
+	errs = 0;
 
 var getPhone = function(url, next){
 	getNumber(url, function(string){
@@ -148,8 +151,14 @@ var getPhone = function(url, next){
 
 		user.save(function(err){
 			if(err) {
-				console.log("save failed;" + url);
+				
 				console.log(err);
+				errs++;
+				console.log("error number" + errs);
+			}
+			else{
+				mmm++;
+				console.log("success number" + mmm);
 			}
 		});
 		next();
@@ -160,13 +169,13 @@ var getPhone = function(url, next){
 var start = function(){
 
 	var url = i == 1 ? hrefs[i] : hrefs[2].replace(/\{i\}/, i);
+	console.log("Indexe processing "+i, url);
 	getIndex(url, function(){
 		i++;
-		console.log("Index is processed NO."+i);
-		if(i== 140) console.log("Indexe processing Finished");
+		if(i== 200) console.log("Indexe processing Finished");
 		else setTimeout(function(){
 				start();
-			},2000);
+			},5000);
 		if(i == 2 && urls.length !=0){
 			getPhoneNumber();
 		}
@@ -187,7 +196,7 @@ var getPhoneNumber = function(){
 			if(urls[index]== undefined) console.log("Number processing Finished");
 			else setTimeout(function(){
 				getPhoneNumber();
-			},2000);
+			},5000);
 		});
 	}
 
