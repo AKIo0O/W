@@ -62,7 +62,7 @@ var methods = {
 			console.log(post.phonenumber)
 			dao.findOne({phonenumber:post.phonenumber}).exec(function(err, data){
 
-				if(!err){
+				if(err){
 					obj.save(function(err, obj){
 						if(err) res.end("save error");
 						res.end(JSON.stringify(obj));
