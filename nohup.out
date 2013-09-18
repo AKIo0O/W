@@ -6,3 +6,23 @@ starting
 18612290687
 [ '', 'user' ]
 18612290687
+starting
+[ '', 'user' ]
+18612290687
+[ '', 'user' ]
+123123
+
+node.js:201
+        throw e; // process.nextTick error, or 'error' event on first tick
+              ^
+TypeError: Cannot read property 'href' of null
+    at Promise.<anonymous> (/root/W/restful.js:71:10)
+    at Promise.<anonymous> (/root/W/node_modules/mongoose/node_modules/mpromise/lib/promise.js:162:8)
+    at Promise.<anonymous> (events.js:67:17)
+    at Promise.emit (/root/W/node_modules/mongoose/node_modules/mpromise/lib/promise.js:79:38)
+    at Promise.<anonymous> (/root/W/node_modules/mongoose/node_modules/mpromise/lib/promise.js:92:20)
+    at Promise.resolve (/root/W/node_modules/mongoose/lib/promise.js:108:15)
+    at Promise.<anonymous> (/root/W/node_modules/mongoose/node_modules/mpromise/lib/promise.js:162:8)
+    at Promise.<anonymous> (events.js:67:17)
+    at Promise.emit (/root/W/node_modules/mongoose/node_modules/mpromise/lib/promise.js:79:38)
+    at Promise.<anonymous> (/root/W/node_modules/mongoose/node_modules/mpromise/lib/promise.js:92:20)

@@ -67,7 +67,9 @@ var methods = {
 						if(err) res.end("save error");
 						res.end(JSON.stringify(obj));
 					});
-				}else{
+				}else
+                {
+                    if(!data.href) data.href = [];
 					data.href.push(post.href);
 					data.save();
 					res.end(JSON.stringify(data));
