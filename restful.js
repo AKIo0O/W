@@ -62,7 +62,7 @@ var methods = {
 			console.log(post.phonenumber)
 			dao.findOne({phonenumber:post.phonenumber}).exec(function(err, data){
 
-				if(err){
+				if(data == null){
 					obj.save(function(err, obj){
 						if(err) res.end("save error");
 						res.end(JSON.stringify(obj));
@@ -70,6 +70,7 @@ var methods = {
 				}else
                 {
                     if(!data.href) data.href = [];
+
 					data.href.push(post.href);
 					data.save();
 					res.end(JSON.stringify(data));
