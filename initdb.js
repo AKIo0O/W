@@ -1,6 +1,6 @@
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://115.28.17.19:27017/test');
+mongoose.connect('mongodb://localhost:27017/test');
 
 
 global.fsmodel = mongoose.model('file', mongoose.Schema({
@@ -10,8 +10,7 @@ global.fsmodel = mongoose.model('file', mongoose.Schema({
 
 global.usermodel = mongoose.model('user', mongoose.Schema({
     phonenumber: String,
-    href:[],
-    title:String 
+    href:[]
 }));
 
 

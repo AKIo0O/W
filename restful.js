@@ -22,7 +22,7 @@ var methods = {
 		var method = getMethod[pathname.length];
 
 		if(method == "" || pathname.length == 0) return res.end("not found")
-
+        if(methods[method] == undefined) return res.end('method is not apply');
 		pathname.push(callback);
 		methods[method].apply(null, pathname);
 
@@ -62,7 +62,7 @@ var methods = {
 			console.log(post.phonenumber)
 			dao.findOne({phonenumber:post.phonenumber}).exec(function(err, data){
 
-				if(err){
+				if(!err){
 					obj.save(function(err, obj){
 						if(err) res.end("save error");
 						res.end(JSON.stringify(obj));
@@ -98,6 +98,7 @@ var methods = {
 var server = require("http").createServer(function (req, res) {
 	res.writeHead(200, {"Access-Control-Allow-Origin":"*"});
 	var pathname = require('url').parse(req.url, true).pathname.split("/");
+    
 	console.log(pathname);
 	if(pathname[1] == "site"){
 		methods.SITE(req, res); 
@@ -107,7 +108,10 @@ var server = require("http").createServer(function (req, res) {
 	}
 });
 
-server.listen(80,'127.0.0.1',function(){});
+server.listen(80,'115.28.17.19',function(){
+    console.log("starting");    
+
+});
 
 var options = {
 	hostname: 'www.google.com',
