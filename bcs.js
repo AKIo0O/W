@@ -85,10 +85,10 @@ var db = {
 
 var userdao = global.usermodel;
 
-var user = new userdao({
-	phonenumber:18612290687,
-	href:"www.baidu.com"
-});
+// var user = new userdao({
+// 	phonenumber:18612290687,
+// 	href:"www.baidu.com"
+// });
 // user.save();
 
 // userdao.find({},function(err, data){
@@ -135,23 +135,46 @@ var getIndex = function(url, next){
 	})
 };
 
+var options = {
+	host:'115.28.17.19',
+	port:80,
+	path:'/user',
+	method:'POST'
+};
+
+
 var getPhone = function(url, next){
+
+	var req = http.request(options,function(res){
+		res.setEncoding('utf8');
+		res.on('data',function(chunk){
+			console.log(chunk);
+		});
+		res.on('end',function(){
+			req = null;
+			start();
+		})
+	});
+
+	req.on('error',function(err){
+		console.log(err.message);
+	});
+
+
 	getNumber(url, function(string){
 		if(string == "error") next();
 		var result = string.match(/<em class=\"contact-mobile\".+?<\/em>/img);
 		if(result == null) return next();
 		var number = result[0].slice(-18,-5);
-		var user = new userdao({
+		number = number.replace(/ /g,"");
+		var params = {
 			phonenumber:number,
-			href: url
-		});
-
-		user.save(function(err){
-			if(err) {
-				console.log("save failed;" + url);
-				console.log(err);
-			}
-		});
+			href:url,
+			name:"未知"
+		};
+		params = require('querystring').stringify(params);
+		req.write(params);
+		req.end();
 		next();
 	});
 };
@@ -163,10 +186,10 @@ var start = function(){
 	getIndex(url, function(){
 		i++;
 		console.log("Index is processed NO."+i);
-		if(i== 140) console.log("Indexe processing Finished");
+		if(i== 540) console.log("Indexe processing Finished");
 		else setTimeout(function(){
-				start();
-			},2000);
+			start();
+		},5000);
 		if(i == 2 && urls.length !=0){
 			getPhoneNumber();
 		}
@@ -187,7 +210,7 @@ var getPhoneNumber = function(){
 			if(urls[index]== undefined) console.log("Number processing Finished");
 			else setTimeout(function(){
 				getPhoneNumber();
-			},2000);
+			},3000);
 		});
 	}
 
