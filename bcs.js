@@ -103,8 +103,8 @@ var http = require("http"),
 
 
 var hrefs = ["",
-	"http://bj.ganji.com/fang1/a2m1/",
-	"http://bj.ganji.com/fang1/a2o{i}m1/"
+	"http://bj.ganji.com/fang1/a2",
+	"http://bj.ganji.com/fang1/a2o{i}"
 ];
 
 var i = 1;
@@ -118,6 +118,7 @@ var getNumber = function(url, callback){
 	    });
 	    res.on("end",function(){
 			callback(string);
+			console.log(string)
 	    });
 	}).on("error", function(e){
 		callback("error");
@@ -134,6 +135,8 @@ var getIndex = function(url, next){
 		next();
 	})
 };
+var mmm = 0,
+	errs = 0;
 
 var options = {
 	host:'115.28.17.19',
@@ -183,13 +186,13 @@ var getPhone = function(url, next){
 var start = function(){
 
 	var url = i == 1 ? hrefs[i] : hrefs[2].replace(/\{i\}/, i);
+	console.log("Indexe processing "+i, url);
 	getIndex(url, function(){
 		i++;
-		console.log("Index is processed NO."+i);
-		if(i== 540) console.log("Indexe processing Finished");
+		if(i== 200) console.log("Indexe processing Finished");
 		else setTimeout(function(){
-			start();
-		},5000);
+				start();
+			},5000);
 		if(i == 2 && urls.length !=0){
 			getPhoneNumber();
 		}
@@ -210,7 +213,7 @@ var getPhoneNumber = function(){
 			if(urls[index]== undefined) console.log("Number processing Finished");
 			else setTimeout(function(){
 				getPhoneNumber();
-			},3000);
+			},5000);
 		});
 	}
 
